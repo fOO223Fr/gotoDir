@@ -7,7 +7,9 @@ while read repo; do
     then
         echo $repo
         git clone $repo
-        repoName=$(echo $1 | perl -ne '/\/(?!.*\/)(.*)\./ && print "$1\n"')
+
+        # The below code can be used when input of repo links is not from a file instead it is from command line.
+        #repoName=$(echo $1 | perl -ne '/\/(?!.*\/)(.*)\./ && print "$1\n"')
         projectName=$(echo $repo |  perl -ne '/:7999\/(.+)\/(.+)\./ && print "$1"')
         repoName=$(echo $repo |  perl -ne '/:7999\/(.+)\/(.+)\./ && print "$2"')
         
@@ -64,6 +66,7 @@ while read repo; do
         git commit -m "kubectl create command updated. AEB-3180"
         git push origin patch/AEB-3180
 
+        # the reviewer in the request should be changed accordingly.
         generate_post_data()
         {
 cat <<EOF
