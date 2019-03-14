@@ -8,7 +8,7 @@ read reviewer
 # Constant variables.
 projectName=WRTCPLAT
 # Store repository list in a variable.
-inputJson=$(curl -u $username:$password -H "Content-Type: application/json" "http://bitbucket.genband.com/rest/api/1.0/projects/$projectName/repos")
+inputJson=$(curl -u $username:$password -H "Content-Type: application/json" "http://bitbucket.genband.com/rest/api/1.0/projects/$projectName/repos?limit=999")
 
 # Iterate through the reposition in side $projectName.
 echo $inputJson | jq -r '.["values"] | .[].slug' | while read i; do
@@ -16,8 +16,8 @@ echo $inputJson | jq -r '.["values"] | .[].slug' | while read i; do
   generate_post_data() {
   cat <<EOF
 {
-  "title": "Type your commit message.",
-  "description": "Type your commit description.",
+  "title": "Auto generated PR title",
+  "description": "Auto generated PR decription",
   "state": "OPEN",
   "open": true,
   "closed": false,
@@ -54,5 +54,4 @@ EOF
 
   # Post request for bitbucket PR.
   curl -u $username:$password -H "Content-Type: application/json" "http://bitbucket.genband.com/rest/api/1.0/projects/$projectName/repos/$repoName/pull-requests" -X POST -d "$(generate_post_data)"
-  exit 1;
 done
