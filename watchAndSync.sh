@@ -1,17 +1,16 @@
-echo "Type the directory to watch and rsync in Home directory"
+echo "Type the Microservice directory to watch and rsync, followed by [Enter]"
 read directory
-directory_path=$(find ~/ -name $directory -type d -print)
-echo "$directory_path"
+echo "Searching for $directory anywhere inside $HOME/repos"
+directory_path=$(find $HOME/repos -maxdepth 1 -name $directory -type d -print)
+echo "Found path for $directory which is: $directory_path"
+echo "Press [Enter] to continue else [CTRL]+Z"
+read
+echo "IP of lab to sync, followed by [Enter]"
+read labIp
+echo "Exchanging ssh keys, enter lab password for the first time"
+ssh-copy-id -i ~/.ssh/id_rsa.pub sysadm@$labIp
+echo "Copied to /home/sysadm/$directory/ in remote machine"
+
 while inotifywait -r -e modify,create,delete $directory_path; do
-    rsync -avu --delete $directory_path/src/main/deployment/ansible/setup-generic-nginx-ms/tasks/ /etc/ansible_guest/roles/setup-generic-nginx-ms/tasks/
-    # For playbook file
-    rsync -vu $directory_path/src/main/deployment/ansible/ /etc/ansible_guest/
-    # For tasks folder
-    rsync -avu --delete $directory_path/src/main/deployment/ansible/$role_name/tasks/ /etc/ansible_guest/roles/$namespace/$role_name/tasks/
-    # For config.yml file 
-    rsync -vu $directory_path/src/main/deployment/ansible/config.yml /etc/ansible_guest/roles/$namespace/$role_name/files/config.yml
-    # For docker folder
-    rsync -avu --delete $directory_path/src/main/deployment/docker/ /etc/ansible_guest/roles/$namespace/$role_name/files/docker/
-    # For Kubernetes folder
-    rsync -avu --delete $directory_path/src/main/deployment/kubernetes/ /etc/ansible_guest/roles/$namespace/$role_name/templates/kubernetes/
+    rsync -avz -e ssh $directory_path sysadm@$labIp:/home/sysadm/$directory/
 done
