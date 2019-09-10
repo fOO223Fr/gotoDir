@@ -1,7 +1,7 @@
 echo "Type the Microservice directory to watch and rsync, followed by [Enter]"
 read directory
 echo "Searching for $directory anywhere inside $HOME/repos"
-directory_path=$(find $HOME/repos -maxdepth 1 -name $directory -type d -print)
+directory_path=$(find -L $HOME/repos -maxdepth 1 -name $directory -type d -print)
 echo "Found path for $directory which is: $directory_path"
 echo "Press [Enter] to continue else [CTRL]+Z"
 read
