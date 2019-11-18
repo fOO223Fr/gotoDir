@@ -1,1 +1,1 @@
-# Open files in the said folder
+# Helpful scripts
