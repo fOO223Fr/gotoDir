@@ -31,8 +31,9 @@ run_dd_test() {
 
     # Run the dd test and save the result
     result=$(dd if=/dev/zero of="$TEST_PATH/testfile" bs="$block_size" count="$count" oflag="$flag" 2>&1)
+
     # Extract speed information from the output
-    speed=$(echo "$result" | grep -oP '\d+\.\d+ MB/s')
+    speed=$(echo "$result" | grep -oP '\d+(\.\d+)?\s*(MB|GB)/s' | tr -d '\n')
 
     # Append to output file and return speed
     echo "Block Size: $block_size, Count: $count, Flag: $flag ($label) => Speed: $speed" | tee -a "$OUTPUT_FILE"
@@ -61,7 +62,7 @@ done
 # Display results in table format
 echo -e "\nSummary of Test Results" | tee -a "$OUTPUT_FILE"
 echo "=======================" | tee -a "$OUTPUT_FILE"
-printf "%-12s | %-10s | %-10s\n" "Block Size" "dsync (MB/s)" "direct (MB/s)" | tee -a "$OUTPUT_FILE"
+printf "%-12s | %-10s | %-10s\n" "Block Size" "dsync (MB/s)/(GB/s)" "direct (MB/s)/(GB/s)" | tee -a "$OUTPUT_FILE"
 echo "------------------------------" | tee -a "$OUTPUT_FILE"
 
 for block in "${!BLOCK_SIZES[@]}"; do
