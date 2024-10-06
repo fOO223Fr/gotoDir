@@ -1,0 +1,11 @@
+[Unit]
+Description=Immich Backup Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/scripts/backup/immich.sh
+EnvironmentFile=/opt/scripts/backup/.env_pbs
+
+[Install]
+WantedBy=multi-user.target
