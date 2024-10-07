@@ -23,9 +23,6 @@ else
   exit 1
 fi
 
-# Set PBS repository (update with the actual repository name and PBS IP)
-PBS_REPOSITORY="$PBS_USER@$PBS_REALM!$PBS_TOKEN_ID@$PBS_IP:$PBS_DS"
-
 # Backup Immich data (excluding unnecessary directories)
 echo "Starting Proxmox Backup Client for Immich data..."
 proxmox-backup-client backup immich.pxar:"$UPLOAD_LOCATION" \
