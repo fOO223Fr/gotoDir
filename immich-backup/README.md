@@ -11,3 +11,5 @@ Provide an alternative to immich borg backup template with proxmox backup client
 - Place `immich.sh` and `.env_pbs` in a directory in your pve host. For example: `/opt/scripts/backup/`.
 - Place the systemd service file `immich-backup.service` in `/etc/systemd/system/immich-backup.service`.
 - Place the systemd timer file `immich-backup.timer` in `/etc/systemd/system/immich-backup.timer`.
+- `systemctl daemon-reload`
+- `systemctl enable immich-backup.timer`
