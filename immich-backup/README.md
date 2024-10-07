@@ -3,7 +3,7 @@ Provide an alternative to immich borg backup template with proxmox backup client
 
 # Pre-requsite
 - proxmox virtual environment - pve
-- proxmox backup server - pbs
+- proxmox backup server - pbs - with a datastore dedicated to immich
 - immich running as docker container inside a LXC container
 
 # How to Use
